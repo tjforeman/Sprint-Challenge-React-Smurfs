@@ -27,9 +27,21 @@ class App extends Component {
       console.log(err)
     })
   }
+  
   newSmurf= newsmurf=>{
     axios
     .post('http://localhost:3333/smurfs',newsmurf)
+    .then(res =>{
+      this.setState({smurfs:res.data})
+    })
+    .catch(err=>{
+      console.log(err)
+    })
+  }
+
+  deleteSmurf= id=>{
+    axios
+    .delete(`http://localhost:3333/smurfs/${id}`)
     .then(res =>{
       this.setState({smurfs:res.data})
     })
@@ -47,7 +59,7 @@ class App extends Component {
       <NavLink to='/smurf-form'>Add a Smurf</NavLink>
       </div>
         <Route path ='/smurf-form' render={props=><SmurfForm {...props}newSmurf={this.newSmurf}/>} />
-    <Route exact path='/' render={props=>  <Smurfs {...props} smurfs={this.state.smurfs} />} />
+    <Route exact path='/' render={props=>  <Smurfs {...props} smurfs={this.state.smurfs} deleteSmurf={this.deleteSmurf} />} />
       </div>
     );
   }
